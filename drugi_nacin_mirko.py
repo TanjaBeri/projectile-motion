@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from os import path
 
 MARKERI = 6
+ALPHA=0.2
 
 
 
@@ -93,10 +94,11 @@ def sfera_z(rows,gr_1,gr_2):
     return sfera_z
 
 
+# Ucitavanje i sredjivanje RAW podataka
 
 # ucitavanje file path-a
 file_path = 'RAW podaci vicon' #input("Enter the file path: ") 
-file_name = input("Enter the file name with extension (.csv): ")
+file_name = input("Enter the file name with extension (.csv) (RAW podaci): ")
 full_path = path.join(file_path, file_name)
 
 print(f"Full file address is: {full_path}")
@@ -106,7 +108,6 @@ filename = full_path
 # initialzing the titles and rows list
 fields = []
 rows = []
-
 # reading csv file
 with open(filename, 'r') as csvfile:
     # creating a csv reader object
@@ -136,7 +137,7 @@ print("Tacke z:",usrednjena_sfera_z)
 
 # nov csv fajl sa usrednjenom vrednostima
 df = pd.DataFrame(list(zip(usrednjena_sfera_x,usrednjena_sfera_y,usrednjena_sfera_z)),columns=['S1-6 X osa','S1-6 Y osa','S1-6 Z osa'])
-df.to_csv('usrednjene_vrednosti_'+ file_name,index=False,header=True)
+df.to_csv('usr_'+ file_name,index=False,header=True)
 
 
 # Ucitavanje Tx, Ty i Tz iz fajla
@@ -184,25 +185,23 @@ plt.show()
 
 
 # plotovanje samo Tx, Ty i Tz zasebno
-frame = list(range(0,160))
-figure, axis = plt.subplots(3)
+def plot_Tx_Ty_Tz():
+    frame = list(range(0,160))
+    figure, axis = plt.subplots(3)
 
-# za Tx
-Tx = np.array(res_x)
-axis[0].plot(frame,Tx)
-axis[0].set_title("Tx")
+    # za Tx
+    Tx = np.array(res_x)
+    axis[0].plot(frame,Tx)
+    axis[0].set_title("Tx")
 
-# za Ty
-Ty = np.array(res_y)
-axis[1].plot(frame,Ty)
-axis[1].set_title("Ty")
+    # za Ty
+    Ty = np.array(res_y)
+    axis[1].plot(frame,Ty)
+    axis[1].set_title("Ty")
 
-# za Tz
-Tz = np.array(res_z)
-axis[2].plot(frame,Tz)
-axis[2].set_title("Tz")
+    # za Tz
+    Tz = np.array(res_z)
+    axis[2].plot(frame,Tz)
+    axis[2].set_title("Tz")
 
-plt.show()
-
-
-
+    plt.show()

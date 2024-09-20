@@ -1,12 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from projectile_mot_norm_tacke_vicon import srednje_x,srednje_y,srednje_z
+from moving_average_filter import X_kol1,Y_kol1,Z_kol1
+from moving_average_filter import X_list,Y_list,Z_list
 
 g = 9.81
 # racunanje V0x, V0y, V0z
 # Pozicije u dva razlicita vremena (primer)
-x1, y1, z1 = srednje_x[0],srednje_y[0], srednje_z[0]    # Pozicija u trenutku t1
-x2, y2, z2 = srednje_x[1],srednje_y[1],srednje_z[1]    # Pozicija u trenutku t2
+x1, y1, z1 = X_list[0],Y_list[0], Z_list[0]    # Pozicija u trenutku t1
+x2, y2, z2 = X_list[1],Y_list[1],Z_list[1]    # Pozicija u trenutku t2
+
+print(f"x1 = {x1}, y1 = {y1}, z1 = {z1}")
+print(f"x2 = {x2}, y2 = {y2}, z2 = {z2}")
+
 
 # Vremenski trenuci
 t1 = 0
@@ -14,23 +19,29 @@ t2 = 0.1
 
 # Calculate the displacement vector components
 dx = x2 - x1
+print("dx=",dx)
 dy = y2 - y1
+print("dy = ",dy)
 dz = z2 - z1
+print("dz = ",dz)
 
 # Calculate the time interval
 dt = t2 - t1
-
+print("dt = ",dt)
 # Calculate the velocity components
 vx = dx / dt
 vy = dy / dt
 vz = dz / dt
+print(f"vx = {vx}, vy = {vy}, vz = {vz}")
 
 # Calculate the magnitude of the horizontal velocity component
 vh = np.sqrt(vx**2 + vy**2)
 v0_int = np.sqrt(vx**2 + vy**2 + vz**2)
+print(f"vh = {vh}, v0_int = {v0_int}")
 # Calculate the angle in radians
 alpha_rad = np.arctan2(vz, vh)
 beta_rad = np.arctan2(vy,vx)
+print(f"alpha = {alpha_rad}, beta = {beta_rad}")
 
 
 print("Inetenzitet vektora pocetne brzine: ",v0_int)
@@ -63,10 +74,10 @@ while True:
     rxf.append(rx)
     ry = v0_int * np.cos(alpha_rad) * np.sin(beta_rad) * t2 + r0[1]
     ryf.append(ry)
-    rz = v0_int * np.sin(alpha_rad) * t2 - 0.5 * g * t2 ** 2 + r0[2]
+    rz = v0_int * np.sin(alpha_rad) * t2 - 0.5 * g * (t2 ** 2) + r0[2]
     rzf.append(rz)
 
-    if rx < 0.5 or ry < 0.5 or rz < 0.5:
+    if  rz < 0.5:
         break
 
 t = np.array(t)
@@ -106,9 +117,8 @@ print("rz=",rzf)
 # data plotting
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.plot3D(rxf,ryf,rzf,'green')
-ax.set_xlabel('x osa')
-ax.set_ylabel('y osa')
-ax.set_zlabel('z osa')
+ax.plot(rxf,ryf,rzf,label = 'Kosi hitac izracunat matematicki')
+ax.plot(X_list,Y_list,Z_list,'r',label='Usrednjene vredn.')
+
 ax.set_title('3D projectile motion1')
 plt.show()
