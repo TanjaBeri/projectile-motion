@@ -72,7 +72,7 @@ for i in range(1,n_samples):
 
 
 trajectories = np.array(trajectories)
-print("Estimirane trajektroije: ",trajectories)
+#print("Estimirane trajektroije: ",trajectories)
 trajectories.tofile('estimirani podaci.csv',sep=',')
 
 X_arr = np.array(X_list)

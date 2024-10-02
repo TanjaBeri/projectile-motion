@@ -118,7 +118,7 @@ for df in ema_z:
 
 
 # data plotting
-plt.axes(projection='3d')
+'''plt.axes(projection='3d')
 plt.plot(X_list,Y_list,Z_list,'r',label='Usrednjene vredn.')
 plt.plot(ema_X,ema_Y,ema_z,'b',label='EMA vrednosti')
 
@@ -129,7 +129,7 @@ plt.show()
 print("X_list[1] = ",X_list[1])
 
 t = abs((X_list[-1] - X_list[0])) / len(X_list)
-print("t=",t)
+print("t=",t)'''
 
     
 
